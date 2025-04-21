@@ -6,12 +6,17 @@ import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 import sharp from 'sharp'
+import Media from './collections/Media';
 
 import { Users } from './collections/Users'
-import { Media } from './collections/Media'
+import Process from './collections/Process'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
+const allowedOrigins = [
+  process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:5173',
+  'http://localhost:5173'
+].filter(Boolean) as string[];
 
 export default buildConfig({
   admin: {
@@ -20,8 +25,11 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media],
+  collections: [Users, Media, Process],
   editor: lexicalEditor(),
+  serverURL: process.env.PAYLOAD_PUBLIC_SERVER_URL,
+  cors: allowedOrigins,
+  csrf: allowedOrigins,
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),

@@ -70,6 +70,10 @@ export interface Config {
     users: User;
     media: Media;
     process: Process;
+    clients: Client;
+    'partner-stats': PartnerStat;
+    achievements: Achievement;
+    'blog-posts': BlogPost;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -79,6 +83,10 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     process: ProcessSelect<false> | ProcessSelect<true>;
+    clients: ClientsSelect<false> | ClientsSelect<true>;
+    'partner-stats': PartnerStatsSelect<false> | PartnerStatsSelect<true>;
+    achievements: AchievementsSelect<false> | AchievementsSelect<true>;
+    'blog-posts': BlogPostsSelect<false> | BlogPostsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -174,6 +182,86 @@ export interface Process {
   createdAt: string;
 }
 /**
+ * Manage the numbers displayed in the success counters
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "clients".
+ */
+export interface Client {
+  id: number;
+  /**
+   * The percentage number shown in "Consulting Success" counter
+   */
+  consultingSuccess: number;
+  /**
+   * The number shown in "Worldwide Clients" counter
+   */
+  worldwideClients: number;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "partner-stats".
+ */
+export interface PartnerStat {
+  id: number;
+  partnerCount: number;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Manage business achievement numbers
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "achievements".
+ */
+export interface Achievement {
+  id: number;
+  /**
+   * Number shown for "Business advices given" counter
+   */
+  businessAdvices: number;
+  /**
+   * Number shown for "Business Excellence awards" counter
+   */
+  excellenceAwards: number;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "blog-posts".
+ */
+export interface BlogPost {
+  id: number;
+  title: string;
+  author: string;
+  date: string;
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  excerpt: string;
+  image: number | Media;
+  status?: ('draft' | 'published') | null;
+  slug?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
@@ -191,6 +279,22 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'process';
         value: number | Process;
+      } | null)
+    | ({
+        relationTo: 'clients';
+        value: number | Client;
+      } | null)
+    | ({
+        relationTo: 'partner-stats';
+        value: number | PartnerStat;
+      } | null)
+    | ({
+        relationTo: 'achievements';
+        value: number | Achievement;
+      } | null)
+    | ({
+        relationTo: 'blog-posts';
+        value: number | BlogPost;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -279,6 +383,52 @@ export interface ProcessSelect<T extends boolean = true> {
   image?: T;
   activeClass?: T;
   order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "clients_select".
+ */
+export interface ClientsSelect<T extends boolean = true> {
+  consultingSuccess?: T;
+  worldwideClients?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "partner-stats_select".
+ */
+export interface PartnerStatsSelect<T extends boolean = true> {
+  partnerCount?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "achievements_select".
+ */
+export interface AchievementsSelect<T extends boolean = true> {
+  businessAdvices?: T;
+  excellenceAwards?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "blog-posts_select".
+ */
+export interface BlogPostsSelect<T extends boolean = true> {
+  title?: T;
+  author?: T;
+  date?: T;
+  content?: T;
+  excerpt?: T;
+  image?: T;
+  status?: T;
+  slug?: T;
   updatedAt?: T;
   createdAt?: T;
 }

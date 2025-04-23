@@ -10,6 +10,10 @@ import Media from './collections/Media';
 
 import { Users } from './collections/Users'
 import Process from './collections/Process'
+import Clients from './collections/Clients'
+import PartnerStats from './collections/PartnerStats'
+import Achievements from './collections/Achievements'
+import BlogPosts from './collections/BlogPosts'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -25,7 +29,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media, Process],
+  collections: [Users, Media, Process, Clients, PartnerStats, Achievements, BlogPosts],
   editor: lexicalEditor(),
   serverURL: process.env.PAYLOAD_PUBLIC_SERVER_URL,
   cors: allowedOrigins,

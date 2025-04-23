@@ -24,7 +24,7 @@ export const Process: CollectionConfig = {
     {
       name: 'steps',
       type: 'text',
-      required: true,
+      
     },
     {
       name: 'image',

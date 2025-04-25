@@ -6,7 +6,7 @@ import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 import sharp from 'sharp'
-import Media from './collections/Media';
+
 
 import { Users } from './collections/Users'
 import Process from './collections/Process'
@@ -14,6 +14,8 @@ import Clients from './collections/Clients'
 import PartnerStats from './collections/PartnerStats'
 import Achievements from './collections/Achievements'
 import BlogPosts from './collections/BlogPosts'
+import { Media } from './collections/Media'
+import PrivateImages from './collections/PrivateImages'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -25,11 +27,13 @@ const allowedOrigins = [
 export default buildConfig({
   admin: {
     user: Users.slug,
+  
     importMap: {
       baseDir: path.resolve(dirname),
     },
+    
   },
-  collections: [Users, Media, Process, Clients, PartnerStats, Achievements, BlogPosts],
+  collections: [Users, Media, Process, Clients, PartnerStats, Achievements, BlogPosts, PrivateImages],
   editor: lexicalEditor(),
   serverURL: process.env.PAYLOAD_PUBLIC_SERVER_URL,
   cors: allowedOrigins,
@@ -51,6 +55,10 @@ export default buildConfig({
         [Media.slug]: {
           disableLocalStorage: true,
           prefix: 'media',
+        },
+        [PrivateImages.slug]: {
+          disableLocalStorage: true,
+          prefix: 'private-images',
         },
       },
       bucket: process.env.MINIO_BUCKET || '',

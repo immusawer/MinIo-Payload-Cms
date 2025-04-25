@@ -74,6 +74,7 @@ export interface Config {
     'partner-stats': PartnerStat;
     achievements: Achievement;
     'blog-posts': BlogPost;
+    'private-images': PrivateImage;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -87,6 +88,7 @@ export interface Config {
     'partner-stats': PartnerStatsSelect<false> | PartnerStatsSelect<true>;
     achievements: AchievementsSelect<false> | AchievementsSelect<true>;
     'blog-posts': BlogPostsSelect<false> | BlogPostsSelect<true>;
+    'private-images': PrivateImagesSelect<false> | PrivateImagesSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -129,6 +131,7 @@ export interface UserAuthOperations {
  */
 export interface User {
   id: number;
+  role: 'admin' | 'user';
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -147,6 +150,7 @@ export interface User {
 export interface Media {
   id: number;
   alt: string;
+  uploadedBy?: (number | null) | User;
   prefix?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -262,6 +266,42 @@ export interface BlogPost {
   createdAt: string;
 }
 /**
+ * Private images accessible only via presigned URLs
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "private-images".
+ */
+export interface PrivateImage {
+  id: number;
+  /**
+   * Description of the image
+   */
+  description?: string | null;
+  /**
+   * Presigned URL (auto-generated)
+   */
+  presignedUrl?: string | null;
+  /**
+   * URL expiration time
+   */
+  expiresAt?: string | null;
+  prefix?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  /**
+   * Name of the image file
+   */
+  filename: string;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
@@ -295,6 +335,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'blog-posts';
         value: number | BlogPost;
+      } | null)
+    | ({
+        relationTo: 'private-images';
+        value: number | PrivateImage;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -343,6 +387,7 @@ export interface PayloadMigration {
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
+  role?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;
@@ -359,6 +404,7 @@ export interface UsersSelect<T extends boolean = true> {
  */
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
+  uploadedBy?: T;
   prefix?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -431,6 +477,27 @@ export interface BlogPostsSelect<T extends boolean = true> {
   slug?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "private-images_select".
+ */
+export interface PrivateImagesSelect<T extends boolean = true> {
+  description?: T;
+  presignedUrl?: T;
+  expiresAt?: T;
+  prefix?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

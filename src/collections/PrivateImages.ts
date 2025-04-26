@@ -95,7 +95,7 @@ const PrivateImages: CollectionConfig = {
           const { generatePresignedUrl } = await import('../utilities/presignedUrl');
           
           // Generate a presigned URL that expires in 1 hour
-          const expirationTime = 20; // 1 hour in seconds
+          const expirationTime = 3600;
           const presignedData = await generatePresignedUrl(doc.filename, expirationTime);
           
           if (presignedData) {

@@ -266,33 +266,19 @@ export interface BlogPost {
   createdAt: string;
 }
 /**
- * Private images accessible only via presigned URLs
- *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "private-images".
  */
 export interface PrivateImage {
   id: number;
-  /**
-   * Description of the image
-   */
   description?: string | null;
-  /**
-   * Presigned URL (auto-generated)
-   */
   presignedUrl?: string | null;
-  /**
-   * URL expiration time
-   */
   expiresAt?: string | null;
   prefix?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
   thumbnailURL?: string | null;
-  /**
-   * Name of the image file
-   */
   filename: string;
   mimeType?: string | null;
   filesize?: number | null;

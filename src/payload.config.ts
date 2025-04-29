@@ -25,13 +25,13 @@ const allowedOrigins = [
 ].filter(Boolean) as string[];
 
 export default buildConfig({
+  
   admin: {
     user: Users.slug,
-  
     importMap: {
       baseDir: path.resolve(dirname),
     },
-    
+
   },
   collections: [Users, Media, Process, Clients, PartnerStats, Achievements, BlogPosts, PrivateImages],
   editor: lexicalEditor(),

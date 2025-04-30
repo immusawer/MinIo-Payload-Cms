@@ -7,7 +7,6 @@ import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 import sharp from 'sharp'
 
-
 import { Users } from './collections/Users'
 import Process from './collections/Process'
 import Clients from './collections/Clients'
@@ -19,21 +18,25 @@ import PrivateImages from './collections/PrivateImages'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
-const allowedOrigins = [
-  process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:5173',
-  'http://localhost:5173'
-].filter(Boolean) as string[];
+const allowedOrigins = [process.env.NEXT_PUBLIC_SITE_URL || ''].filter(Boolean) as string[]
 
 export default buildConfig({
-  
   admin: {
     user: Users.slug,
     importMap: {
       baseDir: path.resolve(dirname),
     },
-
   },
-  collections: [Users, Media, Process, Clients, PartnerStats, Achievements, BlogPosts, PrivateImages],
+  collections: [
+    Users,
+    Media,
+    Process,
+    Clients,
+    PartnerStats,
+    Achievements,
+    BlogPosts,
+    PrivateImages,
+  ],
   editor: lexicalEditor(),
   serverURL: process.env.PAYLOAD_PUBLIC_SERVER_URL,
   cors: allowedOrigins,

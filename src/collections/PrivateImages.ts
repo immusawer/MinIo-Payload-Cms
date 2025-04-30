@@ -1,5 +1,5 @@
-import { CollectionConfig } from 'payload';
-import { isAdmin } from '../access/isAdmin';
+import { CollectionConfig } from 'payload'
+import { isAdmin } from '../access/isAdmin'
 
 const PrivateImages: CollectionConfig = {
   slug: 'private-images',
@@ -61,17 +61,17 @@ const PrivateImages: CollectionConfig = {
       async ({ doc, req }) => {
         if (req?.user?.role === 'admin') {
           try {
-            const { generatePresignedUrl } = await import('../utilities/presignedUrl');
-            const presignedData = await generatePresignedUrl(doc.filename, 3600);
+            const { generatePresignedUrl } = await import('../utilities/presignedUrl')
+            const presignedData = await generatePresignedUrl(doc.filename, 3600)
             if (presignedData) {
-              doc.presignedUrl = presignedData.url;
-              doc.expiresAt = presignedData.expiresAt;
+              doc.presignedUrl = presignedData.url
+              doc.expiresAt = presignedData.expiresAt
             }
           } catch (error) {
-            console.error('Error generating presigned URL:', error);
+            console.error('Error generating presigned URL:', error)
           }
         }
-        return doc;
+        return doc
       },
     ],
     // Example: Modify query behavior before fetching list
@@ -79,12 +79,12 @@ const PrivateImages: CollectionConfig = {
       async ({ args, operation }) => {
         if (operation === 'read') {
           // Modify query logic here (e.g., enforce filters)
-          args.where = { ...args.where, someCondition: true };
+          args.where = { ...args.where, someCondition: true }
         }
-        return args;
+        return args
       },
     ],
   },
-};
+}
 
-export default PrivateImages;
+export default PrivateImages

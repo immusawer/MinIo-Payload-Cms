@@ -60,7 +60,7 @@ export async function POST(req: Request) {
     console.error('Error creating contact submission:', error);
     return corsResponse(
       NextResponse.json(
-        { message: 'Error creating contact submission', error: error.message },
+        { message: 'Error creating contact submission', error: error instanceof Error ? error.message : 'Unknown error' },
         { status: 500 }
       )
     );
@@ -69,6 +69,7 @@ export async function POST(req: Request) {
 
 export async function GET() {
   try {
+    const payload = await getPayload({ config });
     const submissions = await payload.find({
       collection: 'contact-submissions',
       sort: '-createdAt',

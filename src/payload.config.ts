@@ -15,6 +15,7 @@ import Achievements from './collections/Achievements'
 import BlogPosts from './collections/BlogPosts'
 import { Media } from './collections/Media'
 import PrivateImages from './collections/PrivateImages'
+import ContactSubmissions from './collections/ContactSubmissions'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -36,6 +37,7 @@ export default buildConfig({
     Achievements,
     BlogPosts,
     PrivateImages,
+    ContactSubmissions,
   ],
   editor: lexicalEditor(),
   serverURL: process.env.PAYLOAD_PUBLIC_SERVER_URL,

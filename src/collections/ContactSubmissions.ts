@@ -1,10 +1,11 @@
 import { CollectionConfig } from 'payload';
 
+// Custom component for status cell
 const ContactSubmissions: CollectionConfig = {
   slug: 'contact-submissions',
   admin: {
     useAsTitle: 'name',
-    defaultColumns: ['name', 'email', 'phone', 'createdAt'],
+    defaultColumns: ['name', 'email', 'phone', 'status', 'createdAt'],
     description: 'Contact form submissions from the website',
   },
   access: {
